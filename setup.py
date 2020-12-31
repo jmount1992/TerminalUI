@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="terminalui",
-    version="0.1.1",
+    version="0.1.2",
     author="James Mount",
     author_email="jmount1992@gmail.com",
     description="A Terminal User Interface based on URWID with asynchronous input/output that can be easily expanded to your application.",
