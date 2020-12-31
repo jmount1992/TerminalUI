@@ -10,7 +10,7 @@ A Python Package that allows for the easily development of Terminal User Interfa
 
 The package is built upon [urwid](http://urwid.org/). This means, unfortunately, based on how the TerminalUI class is currently implemented it will not work with on Windows. It will however, work with the Windows Linux Subsystem (WSL). Here is a [guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10) on how to enable WSL on Windows 10. 
 
-![Image of Yaktocat](docs/images/TerminalUI.png)
+![TerminalUI Image](docs/images/TerminalUI.png)
 
 ## Installation
 
