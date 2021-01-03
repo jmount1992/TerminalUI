@@ -188,19 +188,26 @@ class UserOption(urwid.WidgetWrap):
 
     def get_value(self):
         if type(self._option_text) == urwid.SelectableIcon:
-            return self._value_list[self._current_value]
+            retval = self._value_list[self._current_value]
         elif type(self._option_text) == urwid.Edit:
-            # attempt to conver to str, int or float
-            if re.match('^[0-9]*$', self._current_value): # integer
-                return int(self._current_value)
-            elif re.match('^[0-9\.]*$', self._current_value): # float
-                return float(self._current_value)
-            elif self._current_value.lower() == 'true': # true
-                return True
-            elif self._current_value.lower() == 'false': # false
-                return False
+            retval = self._current_value
 
-            return str(self._current_value) # else return as string
+        # if it isn't a string return whatever value is
+        if type(retval) != str:
+            return retval
+
+        # attempt to convert from str to float, int or bool
+        if re.match('^[0-9\.]*$', retval): # float
+            return float(retval)
+        elif re.match('^[0-9]*$', retval): # integer
+            return int(retval)
+        elif retval.lower() == 'true': # true
+            return True
+        elif retval.lower() == 'false': # false
+            return False
+
+        return retval # just return the value as is
+
 
     def get_value_index(self):
         if type(self._option_text) == urwid.SelectableIcon:
@@ -212,7 +219,7 @@ class UserOption(urwid.WidgetWrap):
         if type(self._option_text) == urwid.SelectableIcon:
             self._value_list = values_list
             self._limits = [0, len(self._value_list)-1]   # limits are 0 and length of list
-            self.set_value(idx)
+            self.set_value(index)
             self._set_option_text(self._current_value)
             self._set_option_text_curs_pos()
             
@@ -326,7 +333,7 @@ class UserOption(urwid.WidgetWrap):
         return key
 
     def _handle_enter_keypress(self, size, key):
-        if self._current_value != self._shown_value and (self._enter_fires_change_event or self._editing):
+        if (self._enter_fires_change_event or self._editing): # and self._current_value != self._shown_value
             self._editing = False
             self.set_value(self._shown_value)
             self._emit('value_change')
